@@ -8,7 +8,7 @@
 #          BUGS: ---
 #         NOTES: ---
 #        AUTHOR:  (), Lilach Maliniak
-#  ORGANIZATION: Kaltura, inc.
+#  ORGANIZATION: Vidiun, inc.
 #       CREATED: June 26, 2017
 #      REVISION:  ---
 #===============================================================================
@@ -33,8 +33,8 @@ FILES_TO_DOWNLOAD=(FormatConverter.node nginx ts_to_mp4_convertor)
 DEST_PATH=(bin bin liveRecorder/bin)
 # Jenkins contains latest built binaries in latest dir and each built binary is also copied to latest dir
 # in case bin was not built in version the latest will be downloaded
-VERSION_URL=http://lna-ci-slave2.kaltura.com/bin/$VERSION/${OS}/release
-LATEST_URL=http://lna-ci-slave2.kaltura.com/bin/latest/${OS}/release
+VERSION_URL=http://lna-ci-slave2.vidiun.com/bin/$VERSION/${OS}/release
+LATEST_URL=http://lna-ci-slave2.vidiun.com/bin/latest/${OS}/release
 
 function download_files()
 {

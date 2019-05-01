@@ -1,2 +1,2 @@
-from Client import KalturaClient
-from Base import KalturaConfiguration
+from Client import VidiunClient
+from Base import VidiunConfiguration

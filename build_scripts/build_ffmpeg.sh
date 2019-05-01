@@ -9,14 +9,14 @@
 #          BUGS: ---
 #         NOTES: ---
 #        AUTHOR:  (), Lilach Maliniak
-#  ORGANIZATION: Kaltura, inc.
+#  ORGANIZATION: Vidiun, inc.
 #       CREATED: June 25 2017
 #      REVISION:  ---
 #===============================================================================
 set -e
 if [ "$#" -lt 2 ]; then
 	echo "usage  : $0 <ffmpeg build path> <ffmpeg version> [Release/Debug]"
-	echo "example: $0 /opt/kaltura/liveController/v1.14.5 /opt/kaltura/liveController/v1.14.5/bin/ffmpeg 3.0"
+	echo "example: $0 /opt/vidiun/liveController/v1.14.5 /opt/vidiun/liveController/v1.14.5/bin/ffmpeg 3.0"
 	exit 1
 fi
 

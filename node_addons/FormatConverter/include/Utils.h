@@ -101,7 +101,7 @@ return "";\
         //      if( buf.Length < tagSize )
         //      {
         //          logger.warn("parseId3Tag. wrong input buffer size {0} expected {1}", buf.Length, tagSize);
-        //          return KalturaSyncPoint.Zero;
+        //          return VidiunSyncPoint.Zero;
         //     }
         walkerIndex += 4;
         ensure_len(walkerIndex+4)
@@ -118,7 +118,7 @@ return "";\
         //        if( buf.Length - walkerIndex < frameSize)
         //        {
         //            logger.warn("parseId3Tag. wrong input buffer size {0} expected {1}", buf.Length, frameSize + walkerIndex);
-        //            return KalturaSyncPoint.Zero;
+        //            return VidiunSyncPoint.Zero;
         //       }
         frameSize -= 10;
         walkerIndex += 4;
@@ -160,8 +160,8 @@ return "";\
         using namespace std;
         
         string s = parseId3Tag((const char *)data,len);
-        // only sync points of type KalturaSyncPoint are accepted...
-        string type("\"objectType\":\"KalturaSyncPoint\"");
+        // only sync points of type VidiunSyncPoint are accepted...
+        string type("\"objectType\":\"VidiunSyncPoint\"");
         size_t n = s.find(type);
         if(string::npos != n){
             string pattern ("\"timestamp\":");

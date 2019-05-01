@@ -13,7 +13,7 @@ from Config.config import get_config
 from Logger.LoggerDecorator import log_subprocess_output
 from TaskBase import TaskBase
 from datetime import datetime
-from KalturaClient.Plugins.Core import  KalturaEntryReplacementStatus,KalturaEntryServerNodeStatus,KalturaEntryServerNodeType
+from VidiunClient.Plugins.Core import  VidiunEntryReplacementStatus,VidiunEntryServerNodeStatus,VidiunEntryServerNodeType
 
 # todo add timeout, and use m3u8 insted of regex
 
@@ -38,7 +38,7 @@ class ConcatenationTask(TaskBase):
         self.iso639_wrapper = Iso639Wrapper(logger_info)
 
     def get_live_type(self):
-        if self.data and str(self.data.get("taskType",None)) == KalturaEntryServerNodeType.LIVE_CLIPPING_TASK:
+        if self.data and str(self.data.get("taskType",None)) == VidiunEntryServerNodeType.LIVE_CLIPPING_TASK:
                     return "clip"
         return "recording"
 
@@ -127,7 +127,7 @@ class ConcatenationTask(TaskBase):
         return None
 
     def run(self):
-        self.update_status(KalturaEntryServerNodeStatus.TASK_PROCESSING)
+        self.update_status(VidiunEntryServerNodeStatus.TASK_PROCESSING)
         command = self.ts_to_mp4_convertor + ' '
         token = self.tokenize_url(self.token_url)
         self.url_base_entry = self.nginx_url.format(token)

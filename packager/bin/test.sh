@@ -17,7 +17,7 @@ curl $address/live/dash/p/$partnerId/e/$entryId/manifest.mpd -i
 
 
 echo HLS legacy :
-curl $address/kLive/smil:${entryId}_all.smil/master.m3u8 -i
-curl $address/kLive/smil:${entryId}_all.smil/1/index.m3u8 -i
-curl $address/kLive/smil:${entryId}_all.smil/manifest.f4m -i
-curl $address/kLive/smil:${entryId}_all.smil/bootstrap-v1-a1.abst -i
+curl $address/vLive/smil:${entryId}_all.smil/master.m3u8 -i
+curl $address/vLive/smil:${entryId}_all.smil/1/index.m3u8 -i
+curl $address/vLive/smil:${entryId}_all.smil/manifest.f4m -i
+curl $address/vLive/smil:${entryId}_all.smil/bootstrap-v1-a1.abst -i

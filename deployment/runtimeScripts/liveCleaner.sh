@@ -3,7 +3,7 @@ set -x
 echo `date`
 
 sd=$(dirname "$0")
-#export BASE_DIR=/web/content/kLive
+#export BASE_DIR=/web/content/vLive
 #export DAYS_TO_KEEP_LIVE=7
 export FOLDER_TO_COPY=("archive" "live")
 

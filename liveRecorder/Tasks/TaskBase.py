@@ -5,7 +5,7 @@ from socket import gethostname
 from Config.config import get_config
 from RecordingException import UnequallStampException
 from BackendClient import *
-from KalturaClient.Plugins.Core import KalturaEntryServerNodeStatus
+from VidiunClient.Plugins.Core import VidiunEntryServerNodeStatus
 
 
 

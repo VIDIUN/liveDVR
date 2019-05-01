@@ -51,7 +51,7 @@ http {
         location = /serverip {
 
             expires 1d;
-            return 200 "Kaltura";
+            return 200 "Vidiun";
         }
 
         include "nginx.conf.live.conf";

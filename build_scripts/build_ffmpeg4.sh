@@ -4,7 +4,7 @@
 #  livetranscoder
 #
 #  Created by Guy.Jacubovski on 30/12/2018.
-#  Copyright © 2018 Kaltura. All rights reserved.
+#  Copyright © 2018 Vidiun. All rights reserved.
 set -ex
 
 
@@ -13,7 +13,7 @@ set -ex
 
 if [ "$#" -lt 1 ]; then
 	echo "usage  : $0 <ffmpeg build path>"
-	echo "example: $0 /opt/kaltura/liveController/v1.14.5/bin/ffmpeg/ffmpeg-4.1"
+	echo "example: $0 /opt/vidiun/liveController/v1.14.5/bin/ffmpeg/ffmpeg-4.1"
 	exit 1
 fi
 

@@ -125,17 +125,17 @@ def get_report(mailAdress = None, relative_date = 1):
     date = now.strftime("%d.%m.%Y")
     output_file = 'DailyReport-' + date + '.log'
     output_full_path = os.path.join("/var/log", output_file)
-    done_path = "/web/content/kLive/liveRecorder/done/"
-    error_path = "/web/content/kLive/liveRecorder/error/"
+    done_path = "/web/content/vLive/liveRecorder/done/"
+    error_path = "/web/content/vLive/liveRecorder/error/"
 
-    mail_list = ["lilach.maliniak@kaltura.com"]
+    mail_list = ["lilach.maliniak@vidiun.com"]
     if mailAdress is not None:
         mail_list.append(mailAdress)
 
     write_liveRecorede_stat("pa", output_full_path, done_path, error_path, month, day)
     write_liveRecorede_stat("ny", output_full_path, done_path, error_path, month, day)
     scan_logs(output_full_path, now)
-    send_from = os.path.basename(__file__) + "@kaltura.com"
+    send_from = os.path.basename(__file__) + "@vidiun.com"
     send_mail(send_from, mail_list, "DailyReport", "DailyReport", output_full_path, output_file)
     print("Send mail to " + str(mail_list) + " date:" + date)
 if __name__ == "__main__":

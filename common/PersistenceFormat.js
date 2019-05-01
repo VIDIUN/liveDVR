@@ -7,7 +7,7 @@ var path = require('path');
 var qio = require('q-io/fs');
 var _ = require('underscore');
 var Q = require('q');
-const kalturaTypes = require('../lib/kaltura-client-lib/KalturaTypes');
+const vidiunTypes = require('../lib/vidiun-client-lib/VidiunTypes');
 
 const tsChunktMatch = new RegExp(/media-([^_]+).*?([\d]+)\.ts.*/);
 const rootFolder = config.get('rootFolderPath');
@@ -120,7 +120,7 @@ class PersistenceFormat {
 
     getRecordingSessionPath(entryId, recordStatus, recordedEntryId) {
         let modeDirName = newSessionDirName;
-        if (recordStatus == kalturaTypes.KalturaRecordStatus.APPENDED){
+        if (recordStatus == vidiunTypes.VidiunRecordStatus.APPENDED){
             modeDirName = appendDirName;
         }
         return path.join(recordingRootPath, modeDirName, entryId.slice(-1), entryId, recordedEntryId);

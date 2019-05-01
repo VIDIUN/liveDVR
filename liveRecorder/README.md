@@ -8,7 +8,7 @@
 
 ## Clone repository
 ```
-git clone https://github.com/kaltura/liveDVR.git ; cd liveRecorder/
+git clone https://github.com/vidiun/liveDVR.git ; cd liveRecorder/
 ```
 
 ## Compile code:
