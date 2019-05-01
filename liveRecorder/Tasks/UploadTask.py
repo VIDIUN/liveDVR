@@ -4,9 +4,9 @@ from BackendClient import *
 from Config.config import get_config
 from TaskBase import TaskBase
 from ThreadWorkers import ThreadWorkers
-from KalturaUploadSession import KalturaUploadSession
-from KalturaClient.Plugins.Core import  KalturaEntryReplacementStatus
-from KalturaClient.Base import KalturaException
+from VidiunUploadSession import VidiunUploadSession
+from VidiunClient.Plugins.Core import  VidiunEntryReplacementStatus
+from VidiunClient.Base import VidiunException
 import glob
 import re
 
@@ -129,7 +129,7 @@ class UploadTask(TaskBase):
                     raise err
                 else:
                     self.logger.warn('there were no mp4 files to upload. check {}'.format(self.recording_path))
-        except KalturaException as e:
+        except VidiunException as e:
             self.logger.error('failed to upload VOD with error {}, exception details: {}'.format(e.code, e.message))
             if e.code == 'VIDIUN_RECORDING_DISABLED':
                 self.logger.warn("%s, move it to done directory", e.message)

@@ -4,9 +4,9 @@
 		"oldContentFolderPath" : "@LIVE_ARCHIVE_CONTENT_PATH@",
 		"logFileName" : "@LOG_FILE_NAME@",
 		"backendClient" : {
-			"serviceUrl" :"@KALTURA_SERVICE_URL@",
-			"adminSecret" :"@KALTURA_PARTNER_ADMIN_SECRET@",
-			"partnerId" : @KALTURA_PARTNER_ID@
+			"serviceUrl" :"@VIDIUN_SERVICE_URL@",
+			"adminSecret" :"@VIDIUN_PARTNER_ADMIN_SECRET@",
+			"partnerId" : @VIDIUN_PARTNER_ID@
 		},
 		"mediaServer" : {
 			"user" : "@WOWZA_ADMIN_USER@",
