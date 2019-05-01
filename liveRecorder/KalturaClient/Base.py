@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -29,9 +29,9 @@ import hashlib
 import json
 
 # Service response formats
-KALTURA_SERVICE_FORMAT_JSON = 1
-KALTURA_SERVICE_FORMAT_XML  = 2
-KALTURA_SERVICE_FORMAT_PHP  = 3
+VIDIUN_SERVICE_FORMAT_JSON = 1
+VIDIUN_SERVICE_FORMAT_XML  = 2
+VIDIUN_SERVICE_FORMAT_PHP  = 3
 
 # Xml utility functions
 def getXmlNodeText(xmlNode):
@@ -78,7 +78,7 @@ def getChildNodeByXPath(node, nodePath):
     return node
 
 # Request parameters container
-class KalturaParams(object):
+class VidiunParams(object):
     def __init__(self):
         self.params = {}
 
@@ -194,7 +194,7 @@ class KalturaParams(object):
         return m.digest().encode('hex')
 
 # Request files container
-class KalturaFiles(object):
+class VidiunFiles(object):
     def __init__(self):
         self.params = {}
 
@@ -207,8 +207,8 @@ class KalturaFiles(object):
     def update(self, props):
         self.params.update(props)
 
-# Kaltura objects factory
-class KalturaObjectFactory(object):
+# Vidiun objects factory
+class VidiunObjectFactory(object):
     objectFactories = {}
 
     @staticmethod
@@ -217,11 +217,11 @@ class KalturaObjectFactory(object):
         if objTypeNode == None:
             return None
         objType = getXmlNodeText(objTypeNode)
-        if not KalturaObjectFactory.objectFactories.has_key(objType):
+        if not VidiunObjectFactory.objectFactories.has_key(objType):
             objType = expectedType.__name__        
-        result = KalturaObjectFactory.objectFactories[objType]()
+        result = VidiunObjectFactory.objectFactories[objType]()
         if not isinstance(result, expectedType):
-            raise KalturaClientException("Unexpected object type '%s'" % objType, KalturaClientException.ERROR_INVALID_OBJECT_TYPE)
+            raise VidiunClientException("Unexpected object type '%s'" % objType, VidiunClientException.ERROR_INVALID_OBJECT_TYPE)
         result.fromXml(objectNode)
         return result
 
@@ -229,7 +229,7 @@ class KalturaObjectFactory(object):
     def createArray(arrayNode, expectedElemType):
         results = []
         for arrayElemNode in arrayNode.childNodes:
-            results.append(KalturaObjectFactory.create(arrayElemNode, expectedElemType))
+            results.append(VidiunObjectFactory.create(arrayElemNode, expectedElemType))
         return results
 
     @staticmethod
@@ -238,25 +238,25 @@ class KalturaObjectFactory(object):
         for mapElemNode in mapNode.childNodes:
             keyNode = getChildNodeByXPath(mapElemNode, 'itemKey')
             key = getXmlNodeText(keyNode)
-            results[key] = KalturaObjectFactory.create(mapElemNode, expectedElemType)
+            results[key] = VidiunObjectFactory.create(mapElemNode, expectedElemType)
         return results
 
     @staticmethod
     def registerObjects(objs):
-        KalturaObjectFactory.objectFactories.update(objs)
+        VidiunObjectFactory.objectFactories.update(objs)
 
 # Abstract base class for all client objects
-class KalturaObjectBase(object):
+class VidiunObjectBase(object):
     def __init__(self, 
             relatedObjects=NotImplemented):
 
-        # @var map of KalturaListResponse
+        # @var map of VidiunListResponse
         # @readonly
         self.relatedObjects = relatedObjects
         
-        from KalturaClient.Plugins.Core import KalturaListResponse
-        KalturaObjectBase.PROPERTY_LOADERS = {
-            'relatedObjects': (KalturaObjectFactory.createMap, KalturaListResponse) 
+        from VidiunClient.Plugins.Core import VidiunListResponse
+        VidiunObjectBase.PROPERTY_LOADERS = {
+            'relatedObjects': (VidiunObjectFactory.createMap, VidiunListResponse) 
         }
     
     def fromXmlImpl(self, node, propList):
@@ -274,12 +274,12 @@ class KalturaObjectBase(object):
             setattr(self, nodeName, loadedValue)
 
     def fromXml(self, node):
-        self.fromXmlImpl(node, KalturaObjectBase.PROPERTY_LOADERS)
+        self.fromXmlImpl(node, VidiunObjectBase.PROPERTY_LOADERS)
         pass
     
     def toParams(self):
-        result = KalturaParams()
-        result.put('objectType', 'KalturaObjectBase')
+        result = VidiunParams()
+        result.put('objectType', 'VidiunObjectBase')
         return result
 
     def getRelatedObjects(self):
@@ -289,7 +289,7 @@ class KalturaObjectBase(object):
         self.relatedObjects = newRelatedObjects
 
 # Abstract base class for all client services
-class KalturaServiceBase(object):
+class VidiunServiceBase(object):
     def __init__(self, client = None):
         self.client = client
         
@@ -297,7 +297,7 @@ class KalturaServiceBase(object):
         self.client = client
 
 # Exception class for server errors
-class KalturaException(Exception):
+class VidiunException(Exception):
     def __init__(self, message, code, header = None):
         self.code = code
         self.message = message
@@ -307,7 +307,7 @@ class KalturaException(Exception):
         return "%s (%s) \n Header: %s" % (self.message, self.code, self.header)
 
 # Exception class for client errors
-class KalturaClientException(Exception):
+class VidiunClientException(Exception):
     ERROR_GENERIC = -1
     ERROR_INVALID_XML = -2
     ERROR_FORMAT_NOT_SUPPORTED = -3
@@ -327,15 +327,15 @@ class KalturaClientException(Exception):
         return "%s (%s)" % (self.message, self.code)
 
 # Client configuration class
-class KalturaConfiguration(object):
-    # Constructs new Kaltura configuration object
-    def __init__(self, serviceUrl = "http://www.kaltura.com", logger = None):
+class VidiunConfiguration(object):
+    # Constructs new Vidiun configuration object
+    def __init__(self, serviceUrl = "http://www.vidiun.com", logger = None):
         self.logger                     = logger
         self.serviceUrl                 = serviceUrl
-        self.format                     = KALTURA_SERVICE_FORMAT_XML
+        self.format                     = VIDIUN_SERVICE_FORMAT_XML
         self.requestTimeout             = 120
         
-    # Set logger to get kaltura client debug logs
+    # Set logger to get vidiun client debug logs
     def setLogger(self, log):
         self.logger = log
         
@@ -344,13 +344,13 @@ class KalturaConfiguration(object):
         return self.logger
 
 # Client plugin interface class
-class IKalturaClientPlugin(object):
-    # @return KalturaClientPlugin
+class IVidiunClientPlugin(object):
+    # @return VidiunClientPlugin
     @staticmethod
     def get():
         raise NotImplementedError
         
-    # @return array<KalturaServiceBase>
+    # @return array<VidiunServiceBase>
     def getServices(self):
         raise NotImplementedError
         
@@ -359,38 +359,38 @@ class IKalturaClientPlugin(object):
         raise NotImplementedError
         
 # Client plugin base class
-class KalturaClientPlugin(IKalturaClientPlugin):
+class VidiunClientPlugin(IVidiunClientPlugin):
     pass
 
-# Kaltura enums factory
-class KalturaEnumsFactory(object):
+# Vidiun enums factory
+class VidiunEnumsFactory(object):
     enumFactories = {}
 
     @staticmethod
     def create(enumValue, enumType):
-        if not KalturaEnumsFactory.enumFactories.has_key(enumType):
-            raise KalturaClientException("Unrecognized enum '%s'" % enumType, KalturaClientException.ERROR_INVALID_OBJECT_TYPE)
-        return KalturaEnumsFactory.enumFactories[enumType](enumValue)
+        if not VidiunEnumsFactory.enumFactories.has_key(enumType):
+            raise VidiunClientException("Unrecognized enum '%s'" % enumType, VidiunClientException.ERROR_INVALID_OBJECT_TYPE)
+        return VidiunEnumsFactory.enumFactories[enumType](enumValue)
 
     @staticmethod
     def createInt(enumNode, enumType):
         enumValue = getXmlNodeInt(enumNode)
         if enumValue == None:
             return None
-        return KalturaEnumsFactory.create(enumValue, enumType)
+        return VidiunEnumsFactory.create(enumValue, enumType)
 
     @staticmethod
     def createString(enumNode, enumType):
         enumValue = getXmlNodeText(enumNode)
         if enumValue == '':
             return None
-        return KalturaEnumsFactory.create(enumValue, enumType)
+        return VidiunEnumsFactory.create(enumValue, enumType)
 
     @staticmethod
     def registerEnums(objs):
-        KalturaEnumsFactory.enumFactories.update(objs)
+        VidiunEnumsFactory.enumFactories.update(objs)
 
-# Implement to get Kaltura Client logs
-class IKalturaLogger(object):
+# Implement to get Vidiun Client logs
+class IVidiunLogger(object):
     def log(self, msg):
         raise NotImplementedError

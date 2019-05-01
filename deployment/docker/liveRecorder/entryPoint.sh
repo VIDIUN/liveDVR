@@ -4,16 +4,16 @@ source initScript.sh
 
 LOGDIR=/var/log/liveRecorder
 HOSTNAME=`hostname`
-RECORDING_FOLDER=/web/content/kLive/liveRecorder
+RECORDING_FOLDER=/web/content/vLive/liveRecorder
 
 sed -e "s#@HOSTNAME@#.*#g" \
     -e "s#@RECORDING_FOLDER@#$RECORDING_FOLDER#g" \
-    -e "s#@KALTURA_PARTNER_ADMIN_SECRET@#$PARTNER_ADMIN_SECRET#g" \
-    -e "s#@KALTURA_PARTNER_ID@#$PARTNER_ID#g" \
+    -e "s#@VIDIUN_PARTNER_ADMIN_SECRET@#$PARTNER_ADMIN_SECRET#g" \
+    -e "s#@VIDIUN_PARTNER_ID@#$PARTNER_ID#g" \
     -e "s#@VOD_UPLOAD_MODE@#remote#g" \
     -e "s#@LIVE_PACKAGER_TOKEN@#$PACKAGER_SECURE_TOKEN#g" \
     -e "s#@LOGS_BASE_PATH@#$LOGDIR#g" \
-    -e "s#@KALTURA_SERVICE_URL@#$SERVICE_URL#g" \
+    -e "s#@VIDIUN_SERVICE_URL@#$SERVICE_URL#g" \
     ./Config/configMapping.ini.template > ./Config/configMapping.ini
 
 pwd

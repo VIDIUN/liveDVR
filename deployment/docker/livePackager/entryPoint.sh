@@ -8,7 +8,7 @@ cd /opt/nginx-vod-module-saas/conf/
 
 CONF_FOLDER=/usr/local/nginx/externalConf
 WWW_DIR=/opt/nginx-vod-module-saas/static/
-CONTENT_DIR=/web/content/kLive
+CONTENT_DIR=/web/content/vLive
 
 if [ "$(ls -A $CONF_FOLDER)" ]; then
     echo "copy configuration"

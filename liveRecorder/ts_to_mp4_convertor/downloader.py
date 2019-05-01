@@ -6,7 +6,7 @@ import sys
 regex = r"href=\"([^\"]+.ts)\""
 
 
-baseUrl = 'http://192.168.10.127/kLive/liveRecorder/done/1_1yxe2oi8_1_mngvnyea_11422102'
+baseUrl = 'http://192.168.10.127/vLive/liveRecorder/done/1_1yxe2oi8_1_mngvnyea_11422102'
 
 folder = os.path.basename(baseUrl)
 

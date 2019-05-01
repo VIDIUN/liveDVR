@@ -12,7 +12,7 @@ return BackendClient.addServerNode(hostname)
     .then((apiResult) => {
         console.log("API call headers: " + apiResult.headers);
         console.log("API call result: " + apiResult.result);
-        if (apiResult.err || apiResult.result.objectType === 'KalturaAPIException') {
+        if (apiResult.err || apiResult.result.objectType === 'VidiunAPIException') {
             throw new Error("Failed to add serverNode. " + ErrorUtils.error2string(apiResult.err));
         }
         console.log("ServerNode [" + hostname + "] was successfully added to server");
@@ -22,7 +22,7 @@ return BackendClient.addServerNode(hostname)
         return BackendClient.enableServerNode(result.id);
     })
     .then((apiResult) => {
-        if (apiResult.err || apiResult.result.objectType === 'KalturaAPIException') {
+        if (apiResult.err || apiResult.result.objectType === 'VidiunAPIException') {
             throw new Error("Failed to enable serverNode. " + ErrorUtils.error2string(apiResult.err))
         }
         console.log("Server node [" + apiResult.result.name + "] was successfully enabled");

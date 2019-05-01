@@ -10,7 +10,7 @@ from socket import gethostname
 import time, threading
 import Queue as Q
 from RecordingException import UnequallStampException
-from KalturaClient.Plugins.Core import KalturaEntryServerNodeStatus
+from VidiunClient.Plugins.Core import VidiunEntryServerNodeStatus
 import schedule
 
 #  Currently not support multiple machine pulling from one incoming dir.
@@ -180,7 +180,7 @@ class TaskRunner:
                         self.logger.fatal("[%s] Job %s on entry %s has no more retries or failed to get it, move entry to "
                                       "failed task directory ", logger_info, self.task_name, task_parameter['directory'])
                         self.safe_move(src, self.error_directory)
-                        job.update_status(KalturaEntryServerNodeStatus.ERROR)
+                        job.update_status(VidiunEntryServerNodeStatus.ERROR)
                 except Exception as e:
                     self.logger.fatal("[%s]  Failed to handle failure task %s \n %s", logger_info, str(e)
                                     , traceback.format_exc())

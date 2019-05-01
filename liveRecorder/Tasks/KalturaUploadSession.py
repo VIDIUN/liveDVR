@@ -1,7 +1,7 @@
 from UploadChunkJob import UploadChunkJob
 from Config.config import get_config
 
-class KalturaUploadSession:
+class VidiunUploadSession:
     def __init__(self, file_name, file_size, chunks_to_upload, entry_id, recorded_id, backend_client, logger, infile):
         self.infile = infile
         self.file_name = file_name
@@ -33,7 +33,7 @@ class KalturaUploadSession:
             return
         if upload_token_list_response.totalCount > 1:  # if more then one result, throw exption
             raise Exception('file ' + file_name + ' has ' + upload_token_list_response.totalCount
-                            + '(more then one) KalturaUploadToken')
+                            + '(more then one) VidiunUploadToken')
 
     def get_next_chunk(self, last_chunk = False):
 

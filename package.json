@@ -1,9 +1,9 @@
 {
-  "name": "kLiveController",
+  "name": "vLiveController",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaltura/liveDVR.git"
+    "url": "git+https://github.com/vidiun/liveDVR.git"
   },
   "devDependencies": {
     "chai": "^3.2.0",
@@ -44,9 +44,9 @@
   },
   "description": "DVR implementation built on top of live streams",
   "bugs": {
-    "url": "https://github.com/kaltura/liveDVR/issues"
+    "url": "https://github.com/vidiun/liveDVR/issues"
   },
-  "homepage": "https://github.com/kaltura/liveDVR#readme",
+  "homepage": "https://github.com/vidiun/liveDVR#readme",
   "main": "./lib/App.js",
   "directories": {
     "test": "tests"

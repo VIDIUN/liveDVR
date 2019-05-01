@@ -5,7 +5,7 @@
 #
 #  Created by Ron Yadgar on 25/09/2016.
 #
-SOURCE_DIRECTORY="/opt/kaltura/liveController/latest"
+SOURCE_DIRECTORY="/opt/vidiun/liveController/latest"
 HOME_DIRECTORY=`grep recording_base_dir $SOURCE_DIRECTORY/liveRecorder/Config/config.ini | awk '{ print $3 }'`
 HOSTNAME=$(hostname)
 HOSTNAME_DIRECTORY="$HOME_DIRECTORY/$HOSTNAME"

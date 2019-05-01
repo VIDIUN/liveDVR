@@ -30,30 +30,30 @@ if [ -z "$build_option" ]; then
 fi
 
 if [ -z "$ffmpeg_path" ]; then
-	ffmpeg_path=/home/kaltura-ci/workspace/kLiveController-build-binaries/node_addons/FormatConverter/build/FFmpeg
+	ffmpeg_path=/home/vidiun-ci/workspace/vLiveController-build-binaries/node_addons/FormatConverter/build/FFmpeg
 fi
 if [ -z "$ffmpeg_build_path" ]; then
-	ffmpeg_build_path=/home/kaltura-ci
+	ffmpeg_build_path=/home/vidiun-ci
 fi
 if [ -z "$ffmpeg4_build_path" ]; then
-	ffmpeg4_build_path=/home/kaltura-ci/ffmpeg-4.1
+	ffmpeg4_build_path=/home/vidiun-ci/ffmpeg-4.1
 fi
 
 
 if [ -z "$product_root_path" ]; then
-	product_root_path=/home/kaltura-ci/workspace/kLiveController-build-binaries
+	product_root_path=/home/vidiun-ci/workspace/vLiveController-build-binaries
 fi
 if [ -z "$BUILD_CONF" ]; then
 	BUILD_CONF=Release
 fi
 if [ -z "$ffmpeg_lib_path" ]; then
-     ffmpeg_lib_path=/home/kaltura-ci/ffmpeg-3.0
+     ffmpeg_lib_path=/home/vidiun-ci/ffmpeg-3.0
 fi
 if [ -z "$ffmpeg4_lib_path" ]; then
-     ffmpeg4_lib_path=/home/kaltura-ci/ffmpeg-4.1
+     ffmpeg4_lib_path=/home/vidiun-ci/ffmpeg-4.1
 fi
 
-build_path=/home/kaltura-ci/workspace/kLiveController-build-binaries
+build_path=/home/vidiun-ci/workspace/vLiveController-build-binaries
 echo "product version=$version"
 echo "running npm installation"
 npm install
@@ -61,14 +61,14 @@ git checkout ${branch}
 #git pull origin ${branch}
 git pull --rebase origin ${branch}
 
-mkdir -p /home/kaltura-ci/bin/latest/linux/debug
-mkdir -p /home/kaltura-ci/bin/latest/linux/release
-mkdir -p /home/kaltura-ci/bin/latest/darwin/debug
-mkdir -p /home/kaltura-ci/bin/latest/darwin/release
-mkdir -p /home/kaltura-ci/bin/${version}/linux/debug
-mkdir -p /home/kaltura-ci/bin/${version}/linux/release
-mkdir -p /home/kaltura-ci/bin/${version}/darwin/debug
-mkdir -p /home/kaltura-ci/bin/${version}/darwin/release
+mkdir -p /home/vidiun-ci/bin/latest/linux/debug
+mkdir -p /home/vidiun-ci/bin/latest/linux/release
+mkdir -p /home/vidiun-ci/bin/latest/darwin/debug
+mkdir -p /home/vidiun-ci/bin/latest/darwin/release
+mkdir -p /home/vidiun-ci/bin/${version}/linux/debug
+mkdir -p /home/vidiun-ci/bin/${version}/linux/release
+mkdir -p /home/vidiun-ci/bin/${version}/darwin/debug
+mkdir -p /home/vidiun-ci/bin/${version}/darwin/release
 
 function build_addons
 {
@@ -79,14 +79,14 @@ function build_addons
     bash ./build_scripts/build_addon.sh $product_root_path $ffmpeg_lib_path Debuug
     local __error=$?
     if [ "$__error" -eq "0" ] && [ "$version" != "0" ]; then
-        echo "cp ./bin/FormatConverter.node /home/kaltura-ci/bin/latest/linux/release"
-        cp ./bin/FormatConverter.node /home/kaltura-ci/bin/latest/linux/release
-        echo "cp ./bin/FormatConverter.node /home/kaltura-ci/bin/${version}/linux/release"
-        cp ./bin/FormatConverter.node /home/kaltura-ci/bin/${version}/linux/release
-        echo "cp ./bin/FormatConverter.node.debug /home/kaltura-ci/bin/latest/linux/debug"
-        cp ./bin/FormatConverter.node.debug /home/kaltura-ci/bin/latest/linux/debug
-        echo "cp ./bin/FormatConverter.node.debug /home/kaltura-ci/bin/${version}/linux/debug"
-        cp ./bin/FormatConverter.node.debug /home/kaltura-ci/bin/${version}/linux/debug
+        echo "cp ./bin/FormatConverter.node /home/vidiun-ci/bin/latest/linux/release"
+        cp ./bin/FormatConverter.node /home/vidiun-ci/bin/latest/linux/release
+        echo "cp ./bin/FormatConverter.node /home/vidiun-ci/bin/${version}/linux/release"
+        cp ./bin/FormatConverter.node /home/vidiun-ci/bin/${version}/linux/release
+        echo "cp ./bin/FormatConverter.node.debug /home/vidiun-ci/bin/latest/linux/debug"
+        cp ./bin/FormatConverter.node.debug /home/vidiun-ci/bin/latest/linux/debug
+        echo "cp ./bin/FormatConverter.node.debug /home/vidiun-ci/bin/${version}/linux/debug"
+        cp ./bin/FormatConverter.node.debug /home/vidiun-ci/bin/${version}/linux/debug
     elif [ "$__error" -ne "0" ]; then
         echo "build addons failed with error [${__error}]"
     fi
@@ -122,10 +122,10 @@ function build_nginx
     ./packager/bin/build_nginx.sh $version
     local __error=$?
     if [ "$__error" -eq "0" ] && [ "$version" != "0" ]; then
-        echo "cp ./bin/nginx /home/kaltura-ci/bin/${version}/linux/release"
-        cp ./bin/nginx /home/kaltura-ci/bin/${version}/linux/release
-        echo "cp $product_root_path/bin/nginx /home/kaltura-ci/bin/latest/linux/release"
-        cp ./bin/nginx /home/kaltura-ci/bin/latest/linux/release
+        echo "cp ./bin/nginx /home/vidiun-ci/bin/${version}/linux/release"
+        cp ./bin/nginx /home/vidiun-ci/bin/${version}/linux/release
+        echo "cp $product_root_path/bin/nginx /home/vidiun-ci/bin/latest/linux/release"
+        cp ./bin/nginx /home/vidiun-ci/bin/latest/linux/release
     elif [ "$__error" -ne "0" ]; then
         echo "build nginx failed with error [${__error}]" 
     fi   
@@ -141,10 +141,10 @@ function build_ts2mp4_convertor
     bash ./build_scripts/build_ts2mp4_convertor.sh $product_root_path/liveRecorder $ffmpeg4_lib_path
     local __error=$?
     if [ "$__error" -eq "0" ] && [ "$version" != "0" ]; then
-        echo "cp ./liveRecorder/bin/ts_to_mp4_convertor /home/kaltura-ci/bin/latest/linux/release"
-        cp ./liveRecorder/bin/ts_to_mp4_convertor /home/kaltura-ci/bin/latest/linux/release
-        echo "cp ./liveRecorder/bin/ts_to_mp4_convertor /home/kaltura-ci/bin/${version}/linux/release"
-        cp ./liveRecorder/bin/ts_to_mp4_convertor /home/kaltura-ci/bin/${version}/linux/release
+        echo "cp ./liveRecorder/bin/ts_to_mp4_convertor /home/vidiun-ci/bin/latest/linux/release"
+        cp ./liveRecorder/bin/ts_to_mp4_convertor /home/vidiun-ci/bin/latest/linux/release
+        echo "cp ./liveRecorder/bin/ts_to_mp4_convertor /home/vidiun-ci/bin/${version}/linux/release"
+        cp ./liveRecorder/bin/ts_to_mp4_convertor /home/vidiun-ci/bin/${version}/linux/release
     elif [ $__error -ne "0" ]; then
         echo "build ts2mp4_convertor failed with error [${__error}]"
     fi

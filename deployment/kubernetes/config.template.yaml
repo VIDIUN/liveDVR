@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: my-env
 data:
-  SERVICE_URL: "http://www.kaltura.com"
+  SERVICE_URL: "http://www.vidiun.com"
   PARTNER_ID: ""
   PARTNER_ADMIN_SECRET: ""
   WSE_LIC: ""

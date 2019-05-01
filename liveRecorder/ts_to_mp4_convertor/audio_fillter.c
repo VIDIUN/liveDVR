@@ -3,7 +3,7 @@
 //  ts_to_mp4_convertor
 //
 //  Created by Guy.Jacubovski on 25/10/2017.
-//  Copyright © 2017 Kaltura. All rights reserved.
+//  Copyright © 2017 Vidiun. All rights reserved.
 //
 
 #include <libavutil/timestamp.h>
