@@ -5247,7 +5247,7 @@ class VidiunRule(VidiunObjectBase):
         # @var bool
         self.stopProcessing = stopProcessing
 
-        # Indicates if we should force ks validation for admin ks users as well
+        # Indicates if we should force vs validation for admin vs users as well
         # @var VidiunNullableBoolean
         self.forceAdminValidation = forceAdminValidation
 
@@ -5505,7 +5505,7 @@ class VidiunAccessControlScope(VidiunObjectBase):
     def __init__(self,
             referrer=NotImplemented,
             ip=NotImplemented,
-            ks=NotImplemented,
+            vs=NotImplemented,
             userAgent=NotImplemented,
             time=NotImplemented,
             contexts=NotImplemented,
@@ -5522,7 +5522,7 @@ class VidiunAccessControlScope(VidiunObjectBase):
 
         # Vidiun session to be used to test session and user conditions.
         # @var string
-        self.ks = ks
+        self.vs = vs
 
         # Browser or client application to be used to test agent conditions.
         # @var string
@@ -5544,7 +5544,7 @@ class VidiunAccessControlScope(VidiunObjectBase):
     PROPERTY_LOADERS = {
         'referrer': getXmlNodeText, 
         'ip': getXmlNodeText, 
-        'ks': getXmlNodeText, 
+        'vs': getXmlNodeText, 
         'userAgent': getXmlNodeText, 
         'time': getXmlNodeInt, 
         'contexts': (VidiunObjectFactory.createArray, VidiunAccessControlContextTypeHolder), 
@@ -5560,7 +5560,7 @@ class VidiunAccessControlScope(VidiunObjectBase):
         vparams.put("objectType", "VidiunAccessControlScope")
         vparams.addStringIfDefined("referrer", self.referrer)
         vparams.addStringIfDefined("ip", self.ip)
-        vparams.addStringIfDefined("ks", self.ks)
+        vparams.addStringIfDefined("vs", self.vs)
         vparams.addStringIfDefined("userAgent", self.userAgent)
         vparams.addIntIfDefined("time", self.time)
         vparams.addArrayIfDefined("contexts", self.contexts)
@@ -5580,10 +5580,10 @@ class VidiunAccessControlScope(VidiunObjectBase):
         self.ip = newIp
 
     def getVs(self):
-        return self.ks
+        return self.vs
 
     def setVs(self, newVs):
-        self.ks = newVs
+        self.vs = newVs
 
     def getUserAgent(self):
         return self.userAgent
@@ -21033,7 +21033,7 @@ class VidiunRequestConfiguration(VidiunObjectBase):
 
     def __init__(self,
             partnerId=NotImplemented,
-            ks=NotImplemented,
+            vs=NotImplemented,
             responseProfile=NotImplemented):
         VidiunObjectBase.__init__(self)
 
@@ -21043,7 +21043,7 @@ class VidiunRequestConfiguration(VidiunObjectBase):
 
         # Vidiun API session
         # @var string
-        self.ks = ks
+        self.vs = vs
 
         # Response profile - this attribute will be automatically unset after every API call.
         # @var VidiunBaseResponseProfile
@@ -21052,7 +21052,7 @@ class VidiunRequestConfiguration(VidiunObjectBase):
 
     PROPERTY_LOADERS = {
         'partnerId': getXmlNodeInt, 
-        'ks': getXmlNodeText, 
+        'vs': getXmlNodeText, 
         'responseProfile': (VidiunObjectFactory.create, VidiunBaseResponseProfile), 
     }
 
@@ -21064,7 +21064,7 @@ class VidiunRequestConfiguration(VidiunObjectBase):
         vparams = VidiunObjectBase.toParams(self)
         vparams.put("objectType", "VidiunRequestConfiguration")
         vparams.addIntIfDefined("partnerId", self.partnerId)
-        vparams.addStringIfDefined("ks", self.ks)
+        vparams.addStringIfDefined("vs", self.vs)
         vparams.addObjectIfDefined("responseProfile", self.responseProfile)
         return vparams
 
@@ -21075,10 +21075,10 @@ class VidiunRequestConfiguration(VidiunObjectBase):
         self.partnerId = newPartnerId
 
     def getVs(self):
-        return self.ks
+        return self.vs
 
     def setVs(self, newVs):
-        self.ks = newVs
+        self.vs = newVs
 
     def getResponseProfile(self):
         return self.responseProfile
@@ -21879,7 +21879,7 @@ class VidiunServerNode(VidiunObjectBase):
 # @subpackage Client
 class VidiunSessionInfo(VidiunObjectBase):
     def __init__(self,
-            ks=NotImplemented,
+            vs=NotImplemented,
             sessionType=NotImplemented,
             partnerId=NotImplemented,
             userId=NotImplemented,
@@ -21889,7 +21889,7 @@ class VidiunSessionInfo(VidiunObjectBase):
 
         # @var string
         # @readonly
-        self.ks = ks
+        self.vs = vs
 
         # @var VidiunSessionType
         # @readonly
@@ -21913,7 +21913,7 @@ class VidiunSessionInfo(VidiunObjectBase):
 
 
     PROPERTY_LOADERS = {
-        'ks': getXmlNodeText, 
+        'vs': getXmlNodeText, 
         'sessionType': (VidiunEnumsFactory.createInt, "VidiunSessionType"), 
         'partnerId': getXmlNodeInt, 
         'userId': getXmlNodeText, 
@@ -21931,7 +21931,7 @@ class VidiunSessionInfo(VidiunObjectBase):
         return vparams
 
     def getVs(self):
-        return self.ks
+        return self.vs
 
     def getSessionType(self):
         return self.sessionType
@@ -22017,7 +22017,7 @@ class VidiunSourceFileSyncDescriptor(VidiunFileSyncDescriptor):
 class VidiunStartWidgetSessionResponse(VidiunObjectBase):
     def __init__(self,
             partnerId=NotImplemented,
-            ks=NotImplemented,
+            vs=NotImplemented,
             userId=NotImplemented):
         VidiunObjectBase.__init__(self)
 
@@ -22027,7 +22027,7 @@ class VidiunStartWidgetSessionResponse(VidiunObjectBase):
 
         # @var string
         # @readonly
-        self.ks = ks
+        self.vs = vs
 
         # @var string
         # @readonly
@@ -22036,7 +22036,7 @@ class VidiunStartWidgetSessionResponse(VidiunObjectBase):
 
     PROPERTY_LOADERS = {
         'partnerId': getXmlNodeInt, 
-        'ks': getXmlNodeText, 
+        'vs': getXmlNodeText, 
         'userId': getXmlNodeText, 
     }
 
@@ -22053,7 +22053,7 @@ class VidiunStartWidgetSessionResponse(VidiunObjectBase):
         return self.partnerId
 
     def getVs(self):
-        return self.ks
+        return self.vs
 
     def getUserId(self):
         return self.userId
@@ -31577,7 +31577,7 @@ class VidiunEntryContextDataParams(VidiunAccessControlScope):
     def __init__(self,
             referrer=NotImplemented,
             ip=NotImplemented,
-            ks=NotImplemented,
+            vs=NotImplemented,
             userAgent=NotImplemented,
             time=NotImplemented,
             contexts=NotImplemented,
@@ -31589,7 +31589,7 @@ class VidiunEntryContextDataParams(VidiunAccessControlScope):
         VidiunAccessControlScope.__init__(self,
             referrer,
             ip,
-            ks,
+            vs,
             userAgent,
             time,
             contexts,
@@ -54746,7 +54746,7 @@ class VidiunCategoryService(VidiunServiceBase):
         return getXmlNodeInt(resultNode)
 
     def move(self, categoryIds, targetCategoryParentId):
-        """Move categories that belong to the same parent category to a target categroy - enabled only for ks with disable entitlement"""
+        """Move categories that belong to the same parent category to a target categroy - enabled only for vs with disable entitlement"""
 
         vparams = VidiunParams()
         vparams.addStringIfDefined("categoryIds", categoryIds)
