@@ -4,7 +4,7 @@
 
 #set -e
 
-PRODUCT_PATH=/opt/kaltura/liveController
+PRODUCT_PATH=/opt/vidiun/liveController
 USAGE="usage: upgradeLive [version] <replace_script|downgrade|build|install_live_recorder> <ffmpeg build path> <ffmpeg version> <replace option: all/live/recorder>"
 BUILD_USAGE="usage: upgradeLive [version] build [ffmpeg build path] [ffmpeg version]"
 REPLACE_DEFAULT_USAGE="usage: upgradeLive [version] replace_default [all/live/recorder]"
@@ -40,10 +40,10 @@ elif [ "${PARAM}" = "replace_default" ]; then
 		REPLACE_TYPE=$3
 		case ${REPLACE_TYPE} in
 		    all)
-		        FILES_TO_REPLACE="kLiveController liveRecorder"
+		        FILES_TO_REPLACE="vLiveController liveRecorder"
 		    ;;
 		    live)
-		        FILES_TO_REPLACE="kLiveController"
+		        FILES_TO_REPLACE="vLiveController"
 		    ;;
 		    recorder)
 		        FILES_TO_REPLACE="liveRecorder"
@@ -61,7 +61,7 @@ function download_version() {
         rm -f v${VERSION}.tar.gz
     fi
     echo "starting to download v${VERSION}.tar.gz"
-    wget https://github.com/kaltura/liveDVR/archive/v${VERSION}.tar.gz
+    wget https://github.com/vidiun/liveDVR/archive/v${VERSION}.tar.gz
 }
 
 function download_new_version() {
@@ -87,8 +87,8 @@ function replace() {
                 echo "copying  liveDVR-${VERSION}/deployment/upgradeLive to ${PRODUCT_PATH}"
                 cp -f liveDVR-${VERSION}/deployment/upgradeLive ./
                 ;;
-            kLiveController)
-                local __liveController="serviceWrappers/defaults/kLiveController"
+            vLiveController)
+                local __liveController="serviceWrappers/defaults/vLiveController"
                 echo "extracting liveDVR-${VERSION}/${__liveController} from liveDVR-${VERSION}.tar.gz"
                 tar -zxvf v${VERSION}.tar.gz liveDVR-${VERSION}/${__liveController}
                 echo "copying  liveDVR-${VERSION}/${__liveController} to /etc/default"
@@ -167,10 +167,10 @@ function downgrade() {
 }
 
 function stop() {
-   if [ -x /etc/init.d/kLiveController ]; then
-        /etc/init.d/kLiveController stop
+   if [ -x /etc/init.d/vLiveController ]; then
+        /etc/init.d/vLiveController stop
    else
-        echo "cannot stop liveController since /etc/init.d/kLiveController is not executable"
+        echo "cannot stop liveController since /etc/init.d/vLiveController is not executable"
    fi
    if [ -x /etc/init.d/liveRecorder ]; then
         /etc/init.d/liveRecorder stop
@@ -180,12 +180,12 @@ function stop() {
 }
 
 function start() {
-    if [ ! -L /etc/init.d/kLiveController ]; then
-       echo "Creating symlink to kLiveController script from /etc/init.d/kLiveController"
-       ln -s latest/serviceWrappers/linux/kLiveController /etc/init.d/kLiveController
+    if [ ! -L /etc/init.d/vLiveController ]; then
+       echo "Creating symlink to vLiveController script from /etc/init.d/vLiveController"
+       ln -s latest/serviceWrappers/linux/vLiveController /etc/init.d/vLiveController
     fi
     # start liveController, nginx (web server), and liveRecorder
-    /etc/init.d/kLiveController restart
+    /etc/init.d/vLiveController restart
     sleep 5
     echo "starting nginx..."
     ${VERSION}/packager/bin/run_nginx.sh

@@ -41,7 +41,7 @@ then
     if [ ! -d "${packagerDir}" ]
     then
         echo "${packagerDir} does not exist."
-        git clone https://github.com/kaltura/nginx-vod-module || echo "error $?"
+        git clone https://github.com/vidiun/nginx-vod-module || echo "error $?"
     fi
     cd ${packagerDir}
     git checkout master

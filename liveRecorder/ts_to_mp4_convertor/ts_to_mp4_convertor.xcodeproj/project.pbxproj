@@ -139,7 +139,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = Kaltura;
+				ORGANIZATIONNAME = Vidiun;
 				TargetAttributes = {
 					086E7ACC1E044C7400206F21 = {
 						CreatedOnToolsVersion = 8.2;

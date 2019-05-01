@@ -10,7 +10,7 @@ const expect = chai.expect;
 const path = require('path');
 const sinon = require('sinon');
 const config = require('./../../common/Configuration');
-const kalturaTypes = require('../../lib/kaltura-client-lib/KalturaTypes');
+const vidiunTypes = require('../../lib/vidiun-client-lib/VidiunTypes');
 const qio = require('q-io/fs');
 describe('Session manager spec', () =>{
 
@@ -20,7 +20,7 @@ describe('Session manager spec', () =>{
     let entryObj = {}
     entryObj.entryId = '0_dv6q5l87'
     entryObj.recordedEntryId = '0_uy8h6jmv'
-    entryObj.recordStatus = kalturaTypes.KalturaRecordStatus.APPENDED
+    entryObj.recordStatus = vidiunTypes.VidiunRecordStatus.APPENDED
     let flavorsObjArray = []
 
 

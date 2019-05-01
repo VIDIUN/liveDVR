@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# usage: bash /opt/kaltura/liveDVR/packager/bin/monitorKeyFrameAlignment.sh | awk -f /opt/kaltura/liveDVR/packager/bin/monitorKeyFrames.awk
+# usage: bash /opt/vidiun/liveDVR/packager/bin/monitorKeyFrameAlignment.sh | awk -f /opt/vidiun/liveDVR/packager/bin/monitorKeyFrames.awk
 
 server=${1:-localhost}
 entryId=${entryId:-0_bvu1eq3g}

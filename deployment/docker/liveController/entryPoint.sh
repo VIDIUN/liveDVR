@@ -3,10 +3,10 @@
 source initScript.sh
 
 echo applying new configMapping
-LOG_FILE_NAME=/var/log/liveController/kLiveController.log
-LIVE_CONTENT_PATH=/web/content/kLive/live
-LIVE_ARCHIVE_CONTENT_PATH=$/web/content/kLive/archive
-RECORDING_FOLDER=/web/content/kLive/liveRecorder
+LOG_FILE_NAME=/var/log/liveController/vLiveController.log
+LIVE_CONTENT_PATH=/web/content/vLive/live
+LIVE_ARCHIVE_CONTENT_PATH=$/web/content/vLive/archive
+RECORDING_FOLDER=/web/content/vLive/liveRecorder
 
 
 jsonFile=$1;

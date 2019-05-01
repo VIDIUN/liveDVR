@@ -13,11 +13,11 @@ describe('MasterManifestGenerator spec', function() {
 
     it('should get master manifest', function(done){
         var masterManifestCreator = createMasterManifestGenerator();
-        masterManifestCreator.getManifest('http://wowza:1935/kLive/smil:testStream.smil/playlist.m3u8', 'mbr').done(function(m3u){
+        masterManifestCreator.getManifest('http://wowza:1935/vLive/smil:testStream.smil/playlist.m3u8', 'mbr').done(function(m3u){
             expect(m3u.items.StreamItem.length).to.equal(3);
-            expect(m3u.items.StreamItem[0].get('uri')).to.eql('../../kLive/12345/475136/manifest.m3u8');
-            expect(m3u.items.StreamItem[1].get('uri')).to.eql('../../kLive/12345/555555/manifest.m3u8');
-            expect(m3u.items.StreamItem[2].get('uri')).to.eql('../../kLive/12345/679936/manifest.m3u8');
+            expect(m3u.items.StreamItem[0].get('uri')).to.eql('../../vLive/12345/475136/manifest.m3u8');
+            expect(m3u.items.StreamItem[1].get('uri')).to.eql('../../vLive/12345/555555/manifest.m3u8');
+            expect(m3u.items.StreamItem[2].get('uri')).to.eql('../../vLive/12345/679936/manifest.m3u8');
             done();
         });
     });
@@ -77,7 +77,7 @@ describe('MasterManifestGenerator spec', function() {
             expect(flavorsData.length).to.equal(3);
             expect(flavorsData[0]).to.eql({
                 bandwidth : 475136,
-                liveURL : 'http://kalsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/kLive/smil:1_oorxcge2_publish.smil/chunklist_b475136.m3u8',
+                liveURL : 'http://vidsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/vLive/smil:1_oorxcge2_publish.smil/chunklist_b475136.m3u8',
                 entryId : '12345'
             });
             done();
@@ -102,13 +102,13 @@ describe('MasterManifestGenerator spec', function() {
         var m3u8 = '#EXTM3U' + '\n';
         m3u8+= '#EXT-X-VERSION:3' + '\n';
         m3u8+= '#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=475136' + '\n';
-        m3u8+= absoluteResponse ? 'http://kalsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/kLive/smil:1_oorxcge2_publish.smil/chunklist_b475136.m3u8' :'chunklist_b475136.m3u8';
+        m3u8+= absoluteResponse ? 'http://vidsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/vLive/smil:1_oorxcge2_publish.smil/chunklist_b475136.m3u8' :'chunklist_b475136.m3u8';
         m3u8+='\n';
         m3u8+= '#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=555555' + '\n';
-        m3u8+= absoluteResponse ? 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish3/kLive/smil:1_oorxcge2_publish.smil/chunklist_b555555.m3u8' : 'chunklist_b555555';
+        m3u8+= absoluteResponse ? 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish3/vLive/smil:1_oorxcge2_publish.smil/chunklist_b555555.m3u8' : 'chunklist_b555555';
         m3u8+='\n';
         m3u8+= '#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=679936' + '\n';
-        m3u8+= absoluteResponse ? 'http://kalsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/kLive/smil:1_oorxcge2_publish.smil/chunklist_b679936.m3u8' : 'chunklist_b679936.m3u8';
+        m3u8+= absoluteResponse ? 'http://vidsegsec-a.akamaihd.net/dc-1/m/ny-live-publish1/vLive/smil:1_oorxcge2_publish.smil/chunklist_b679936.m3u8' : 'chunklist_b679936.m3u8';
 
         var networkClientStub = {
             read: sinon.stub().returns(Q(m3u8))

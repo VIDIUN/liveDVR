@@ -18,7 +18,7 @@
 ```deployment/upgradeLive <version> install_live_recorder```
 
 ## Nginx Installation ##
-Follow instructions in [nginx installation](https://github.com/kaltura/nginx-vod-module)
+Follow instructions in [nginx installation](https://github.com/vidiun/nginx-vod-module)
 
 ##Binaries build: ##
 - install and build ffmpeg 3.0<br>
@@ -32,7 +32,7 @@ Follow instructions in [nginx installation](https://github.com/kaltura/nginx-vod
 * it is recommended to install each version in directory created with the version name
  and use symlink named latest to currently used version
 1. install latest liveRecorder version from git (liveDVR repository):<br>
-   ```wget https://github.com/kaltura/liveDVR/archive/v[x.y.z].tar.gz
+   ```wget https://github.com/vidiun/liveDVR/archive/v[x.y.z].tar.gz
     tar -xvzf v[x.y.z].tar.gz
     mv liveDVR-[x.y.z] [installation base path]
     rm -f v[x.y.z].tar.gz```
@@ -49,15 +49,15 @@ Follow instructions in [nginx installation](https://github.com/kaltura/nginx-vod
 ## Configuration (configMapping.ini)
 
 @RECORDING_FOLDER@ - root path to all streams recorded content<br>
-@KALTURA_PARTNER_ID@ - partner Id to be used to get vod from nginx<br>
+@VIDIUN_PARTNER_ID@ - partner Id to be used to get vod from nginx<br>
 @VOD_UPLOAD_MODE@ - working mode should be set to "remote" if content is uploaded to remote server (BE server), otherwise "local"<br>
 @LIVE_PACKAGER_TOKEN@ - token key, for secured access to nginx<br>
 @LOGS_BASE_PATH@ - the path to all liveRecorder log files<br>
-@KALTURA_SERVICE_URL@ - url to access the BE server (example:  "http://www.kaltura.com")<br>
-@KALTURA_PARTNER_ADMIN_SECRET@ - admin secret for secured access to BE server<br>
+@VIDIUN_SERVICE_URL@ - url to access the BE server (example:  "http://www.vidiun.com")<br>
+@VIDIUN_PARTNER_ADMIN_SECRET@ - admin secret for secured access to BE server<br>
 @RUN_DIR@ - pid file full path (excluding filename)
 @USE_NVM@ - if you intend to use nvm, set to "1".
-@KLIVE_RECORDER_PREFIX@ - symlink name to be linked to latest installed version
+@VLIVE_RECORDER_PREFIX@ - symlink name to be linked to latest installed version
 if value set to [path/to/liveRecorder/source/latest] and
 liveRecorder source is installed under [path/to/liveRecoder/source/[x.y.z]]
 then following symlink will be created:
@@ -66,7 +66,7 @@ then following symlink will be created:
 ##LiveRecorder upgrade: ##
  
 1. deployment/upgradeLive can be used for upgrade<br>
-   ```wget https://github.com/kaltura/liveDVR/archive/v[x.y.z].tar.gz
+   ```wget https://github.com/vidiun/liveDVR/archive/v[x.y.z].tar.gz
     tar -xvzf v[x.y.z].tar.gz
     mv liveDVR-[x.y.z] [installation base path]
     rm -f v[x.y.z].tar.gz```

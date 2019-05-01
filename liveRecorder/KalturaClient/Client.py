@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -49,10 +49,10 @@ try:
     from Crypto import Random
     from Crypto.Cipher import AES
 except ImportError:
-    pass            # PyCrypto is required only for creating KS V2
+    pass            # PyCrypto is required only for creating VS V2
 
-from KalturaClient.Plugins.Core import KalturaClientConfiguration
-from KalturaClient.Plugins.Core import KalturaRequestConfiguration
+from VidiunClient.Plugins.Core import VidiunClientConfiguration
+from VidiunClient.Plugins.Core import VidiunRequestConfiguration
 
 # Register the streaming http handlers with urllib2
 register_openers()
@@ -75,7 +75,7 @@ class PluginServicesProxy(object):
     def addService(self, serviceName, serviceClass):
         setattr(self, serviceName, serviceClass)
 
-class KalturaClient(object):
+class VidiunClient(object):
     RANDOM_SIZE = 16
 
     FIELD_EXPIRY =              '_e'
@@ -111,8 +111,8 @@ class KalturaClient(object):
             self.loadConfigurationItem(configurationMap, property)
 
     def loadConfigurations(self):
-        self.loadConfiguration(KalturaClientConfiguration, self.clientConfiguration)
-        self.loadConfiguration(KalturaRequestConfiguration, self.requestConfiguration)
+        self.loadConfiguration(VidiunClientConfiguration, self.clientConfiguration)
+        self.loadConfiguration(VidiunRequestConfiguration, self.requestConfiguration)
         
     def loadPlugins(self):
         pluginFiles = ['Core']
@@ -128,22 +128,22 @@ class KalturaClient(object):
             self.loadPlugin(pluginFile)
 
     def loadPlugin(self, pluginFile):
-        moduleHierarchy = ['KalturaClient', 'Plugins', pluginFile]
+        moduleHierarchy = ['VidiunClient', 'Plugins', pluginFile]
         pluginModule = __import__('.'.join(moduleHierarchy))
         for curModule in moduleHierarchy[1:]:
             pluginModule = getattr(pluginModule, curModule)
 
         if pluginFile == 'Core':
-            pluginClass = 'KalturaCoreClient'
+            pluginClass = 'VidiunCoreClient'
         else:
-            pluginClass = 'Kaltura%sClientPlugin' % pluginFile
+            pluginClass = 'Vidiun%sClientPlugin' % pluginFile
         if not pluginClass in dir(pluginModule):
             return
         
         pluginClassType = getattr(pluginModule, pluginClass)
 
         plugin = pluginClassType.get()
-        if not isinstance(plugin, IKalturaClientPlugin):
+        if not isinstance(plugin, IVidiunClientPlugin):
             return
 
         self.registerPluginServices(plugin)
@@ -163,8 +163,8 @@ class KalturaClient(object):
                 pluginProxy.addService(serviceName, serviceClass)
 
     def registerPluginObjects(self, plugin):
-        KalturaEnumsFactory.registerEnums(plugin.getEnums())
-        KalturaObjectFactory.registerObjects(plugin.getTypes())
+        VidiunEnumsFactory.registerEnums(plugin.getEnums())
+        VidiunObjectFactory.registerObjects(plugin.getTypes())
 
     def addCoreService(self, serviceName, serviceClass):
         setattr(self, serviceName, serviceClass)
@@ -183,21 +183,21 @@ class KalturaClient(object):
         self.log("Returned url [%s]" % result)
         return result        
         
-    def queueServiceActionCall(self, service, action, returnType, params = KalturaParams(), files = KalturaFiles()):
+    def queueServiceActionCall(self, service, action, returnType, params = VidiunParams(), files = VidiunFiles()):
         for param in self.requestConfiguration:
-            if isinstance(self.requestConfiguration[param], KalturaObjectBase):
+            if isinstance(self.requestConfiguration[param], VidiunObjectBase):
                 params.addObjectIfDefined(param, self.requestConfiguration[param])
             else:
                 params.put(param, self.requestConfiguration[param])
                 
-        call = KalturaServiceActionCall(service, action, params, files)
+        call = VidiunServiceActionCall(service, action, params, files)
         if(self.multiRequestReturnType != None):
             self.multiRequestReturnType.append(returnType)
         self.callsQueue.append(call)
 
     def getRequestParams(self):
-        params = KalturaParams()
-        files = KalturaFiles()
+        params = VidiunParams()
+        files = VidiunFiles()
         for param in self.clientConfiguration:
             params.put(param, self.clientConfiguration[param])
         params.put("format", self.config.format)
@@ -218,7 +218,7 @@ class KalturaClient(object):
             files.update(call.files.get())
 
         signature = params.signature()
-        params.put("kalsig", signature)
+        params.put("vidsig", signature)
 
         self.log("request url: [%s]" % url)
         self.log("request json: [%s]" % params.toJson())
@@ -239,7 +239,7 @@ class KalturaClient(object):
         else:
             if 'Content-Type' in requestHeaders:
                 del requestHeaders['Content-Type']
-            fullParams = KalturaParams()
+            fullParams = VidiunParams()
             fullParams.put('json', params.toJson())
             fullParams.update(files.get())
             datagen, headers = multipart_encode(fullParams.get())
@@ -249,34 +249,34 @@ class KalturaClient(object):
         try:
             f = urllib2.urlopen(request)
         except Exception, e:
-            raise KalturaClientException(e, KalturaClientException.ERROR_CONNECTION_FAILED)
+            raise VidiunClientException(e, VidiunClientException.ERROR_CONNECTION_FAILED)
         return f
 
     @staticmethod
     def readHttpResponse(f, requestTimeout):
         if requestTimeout != None:
-            readTimer = Timer(requestTimeout, KalturaClient.closeHandle, [f])
+            readTimer = Timer(requestTimeout, VidiunClient.closeHandle, [f])
             readTimer.start()
         try:
             try:
                 data = f.read()
             except AttributeError, e:      # socket was closed while reading
-                raise KalturaClientException(e, KalturaClientException.ERROR_READ_TIMEOUT)
+                raise VidiunClientException(e, VidiunClientException.ERROR_READ_TIMEOUT)
             except Exception, e:
-                raise KalturaClientException(e, KalturaClientException.ERROR_READ_FAILED)
+                raise VidiunClientException(e, VidiunClientException.ERROR_READ_FAILED)
             if f.info().get('Content-Encoding') == 'gzip':
                 gzipFile = gzip.GzipFile(fileobj=StringIO(data))
                 try:
                     data = gzipFile.read()
                 except IOError, e:
-                    raise KalturaClientException(e, KalturaClientException.ERROR_READ_GZIP_FAILED)
+                    raise VidiunClientException(e, VidiunClientException.ERROR_READ_GZIP_FAILED)
         finally:
             if requestTimeout != None:
                 readTimer.cancel()
         return data
 
     # Send http request
-    def doHttpRequest(self, url, params = KalturaParams(), files = KalturaFiles()):
+    def doHttpRequest(self, url, params = VidiunParams(), files = VidiunFiles()):
         if len(files.get()) == 0:
             requestTimeout = self.config.requestTimeout
         else:
@@ -303,11 +303,11 @@ class KalturaClient(object):
         try:        
             resultXml = minidom.parseString(postResult)
         except ExpatError, e:
-            raise KalturaClientException(e, KalturaClientException.ERROR_INVALID_XML)
+            raise VidiunClientException(e, VidiunClientException.ERROR_INVALID_XML)
             
         resultNode = getChildNodeByXPath(resultXml, 'xml/result')
         if resultNode == None:
-            raise KalturaClientException('Could not find result node in response xml', KalturaClientException.ERROR_RESULT_NOT_FOUND)
+            raise VidiunClientException('Could not find result node in response xml', VidiunClientException.ERROR_RESULT_NOT_FOUND)
 
         execTime = getChildNodeByXPath(resultXml, 'xml/executionTime')
         if execTime != None:
@@ -324,8 +324,8 @@ class KalturaClient(object):
             self.multiRequestReturnType = None
             return None
 
-        if self.config.format != KALTURA_SERVICE_FORMAT_XML:
-            raise KalturaClientException("unsupported format: %s" % (postResult), KalturaClientException.ERROR_FORMAT_NOT_SUPPORTED)
+        if self.config.format != VIDIUN_SERVICE_FORMAT_XML:
+            raise VidiunClientException("unsupported format: %s" % (postResult), VidiunClientException.ERROR_FORMAT_NOT_SUPPORTED)
             
         startTime = time.time()
 
@@ -347,7 +347,7 @@ class KalturaClient(object):
         for curHeader in self.responseHeaders:
             if curHeader.startswith('X-Me:'):
                 serverName = curHeader.split(':', 1)[1].strip()
-            elif curHeader.startswith('X-Kaltura-Session:'):
+            elif curHeader.startswith('X-Vidiun-Session:'):
                 serverSession = curHeader.split(':', 1)[1].strip()
         if serverName != None or serverSession != None:
             self.log("server: [%s], session [%s]" % (serverName, serverSession))
@@ -355,7 +355,7 @@ class KalturaClient(object):
         try:
             # parse the result
             resultNode = self.parsePostResult(postResult)
-        except KalturaException as e:
+        except VidiunException as e:
             e.header = self.responseHeaders # attach the header
             raise e
 
@@ -367,7 +367,7 @@ class KalturaClient(object):
     def setConfig(self, config):
         self.config = config
         logger = self.config.getLogger()
-        if isinstance(logger, IKalturaLogger):
+        if isinstance(logger, IVidiunLogger):
             self.shouldLog = True
         
     def getExceptionIfError(self, resultNode):
@@ -378,7 +378,7 @@ class KalturaClient(object):
         codeNode = getChildNodeByXPath(errorNode, 'code')
         if messageNode == None or codeNode == None:
             return None
-        return KalturaException(getXmlNodeText(messageNode), getXmlNodeText(codeNode))
+        return VidiunException(getXmlNodeText(messageNode), getXmlNodeText(codeNode))
 
     # Validate the result xml node and raise exception if its an error
     def throwExceptionIfError(self, resultNode):
@@ -401,9 +401,9 @@ class KalturaClient(object):
             if exceptionObj != None:
                 result.append(exceptionObj)
             elif getChildNodeByXPath(childNode, 'objectType') != None:
-                result.append(KalturaObjectFactory.create(childNode, self.multiRequestReturnType[i]))
+                result.append(VidiunObjectFactory.create(childNode, self.multiRequestReturnType[i]))
             elif getChildNodeByXPath(childNode, 'item/objectType') != None:
-                result.append(KalturaObjectFactory.createArray(childNode, self.multiRequestReturnType[i]))
+                result.append(VidiunObjectFactory.createArray(childNode, self.multiRequestReturnType[i]))
             else:
                 result.append(getXmlNodeText(childNode))
             i+=1
@@ -427,10 +427,10 @@ class KalturaClient(object):
         fields = [partnerId, partnerId, expiry, type, rand, userId, privileges]
         fields = map(lambda x: str(x), fields)
         info = ';'.join(fields)
-        signature = KalturaClient.hash(adminSecretForSigning + info).encode('hex')
-        decodedKS = signature + "|" + info
-        KS = base64.b64encode(decodedKS)
-        return KS
+        signature = VidiunClient.hash(adminSecretForSigning + info).encode('hex')
+        decodedVS = signature + "|" + info
+        VS = base64.b64encode(decodedVS)
+        return VS
 
     @staticmethod
     def generateSessionV2(adminSecretForSigning, userId, type, partnerId, expiry = 86400, privileges = ''):
@@ -448,22 +448,22 @@ class KalturaClient(object):
             else:
                 fields[splittedPrivilege[0]] = ''
 
-        fields[KalturaClient.FIELD_EXPIRY] = str(int(time.time()) + expiry)
-        fields[KalturaClient.FIELD_TYPE] = str(type)
-        fields[KalturaClient.FIELD_USER] = str(userId)
+        fields[VidiunClient.FIELD_EXPIRY] = str(int(time.time()) + expiry)
+        fields[VidiunClient.FIELD_TYPE] = str(type)
+        fields[VidiunClient.FIELD_USER] = str(userId)
 
         # build fields string
         fieldsStr = urllib.urlencode(fields)
-        fieldsStr = Random.get_random_bytes(KalturaClient.RANDOM_SIZE) + fieldsStr
-        fieldsStr = KalturaClient.hash(fieldsStr) + fieldsStr
+        fieldsStr = Random.get_random_bytes(VidiunClient.RANDOM_SIZE) + fieldsStr
+        fieldsStr = VidiunClient.hash(fieldsStr) + fieldsStr
 
         # encrypt and encode
-        cipher = AES.new(KalturaClient.hash(adminSecretForSigning)[:16], AES.MODE_CBC, '\0' * 16)
+        cipher = AES.new(VidiunClient.hash(adminSecretForSigning)[:16], AES.MODE_CBC, '\0' * 16)
         if len(fieldsStr) % cipher.block_size != 0:
             fieldsStr += '\0' * (cipher.block_size - len(fieldsStr) % cipher.block_size)
         encryptedFields = cipher.encrypt(fieldsStr)
-        decodedKs = "v2|%s|%s" % (partnerId, encryptedFields)
-        return base64.b64encode(decodedKs).replace('+', '-').replace('/', '_')
+        decodedVs = "v2|%s|%s" % (partnerId, encryptedFields)
+        return base64.b64encode(decodedVs).replace('+', '-').replace('/', '_')
 
     @staticmethod
     def hash(msg):
@@ -471,8 +471,8 @@ class KalturaClient(object):
         m.update(msg)
         return m.digest()
 
-class KalturaServiceActionCall(object):
-    def __init__(self, service, action, params = KalturaParams(), files = KalturaFiles()):
+class VidiunServiceActionCall(object):
+    def __init__(self, service, action, params = VidiunParams(), files = VidiunFiles()):
         self.service = service
         self.action = action
         self.params = params
@@ -483,12 +483,12 @@ class KalturaServiceActionCall(object):
         self.params.put('service', self.service)
         self.params.put('action', self.action)
         
-        multiRequestParams = KalturaParams()
+        multiRequestParams = VidiunParams()
         multiRequestParams.add(multiRequestIndex, self.params.get())
         return multiRequestParams.get()
 
     def getFilesForMultiRequest(self, multiRequestIndex):
-        multiRequestParams = KalturaFiles()
+        multiRequestParams = VidiunFiles()
         for (key, val) in self.files.get().items():
             multiRequestParams.put("%s:%s" % (multiRequestIndex, key), val)
         return multiRequestParams.get()

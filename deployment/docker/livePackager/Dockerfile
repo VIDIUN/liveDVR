@@ -46,7 +46,7 @@ COPY ./packager/www /opt/nginx-vod-module-saas/static/
 VOLUME /var/log/nginx
 
 #content folder
-VOLUME /web/content/kLive
+VOLUME /web/content/vLive
 
 #conf folder
 VOLUME /usr/local/nginx/externalConf

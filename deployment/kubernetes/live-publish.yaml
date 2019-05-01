@@ -38,7 +38,7 @@ spec:
       volumes:
         - name: content
           hostPath:
-            path: /web/content/kLive
+            path: /web/content/vLive
       containers:
       - name: media-server
         imagePullPolicy: "Always"
@@ -83,7 +83,7 @@ spec:
         image: 983882572364.dkr.ecr.eu-west-1.amazonaws.com/live-controller:test
         volumeMounts:
           - name: content
-            mountPath: /web/content/kLive
+            mountPath: /web/content/vLive
         ports:
           - name: http
             containerPort: 43900
@@ -107,7 +107,7 @@ spec:
         image: 983882572364.dkr.ecr.eu-west-1.amazonaws.com/live-packager:test
         volumeMounts:
           - name: content
-            mountPath: /web/content/kLive
+            mountPath: /web/content/vLive
         ports:
           - name: http
             containerPort: 8080

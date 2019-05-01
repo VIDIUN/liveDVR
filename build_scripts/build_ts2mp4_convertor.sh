@@ -9,14 +9,14 @@
 #          BUGS: ---
 #         NOTES: ---
 #        AUTHOR:  (), Lilach Maliniak
-#  ORGANIZATION: Kaltura, inc.
+#  ORGANIZATION: Vidiun, inc.
 #       CREATED:  June 25, 2017
 #      REVISION:  ---
 #===============================================================================
 set -e
 if [ "$#" -lt 2 ]; then
 	echo "usage build_ts2mp4_convertor  <product path> <ffmpeg path>"
-	echo "example: $0 /opt/kaltura/liveController/v1.14.5/liveRecorder /opt/kaltura/liveController/v1.14.5/bin/ffmpeg/ffmpeg-4.1"
+	echo "example: $0 /opt/vidiun/liveController/v1.14.5/liveRecorder /opt/vidiun/liveController/v1.14.5/bin/ffmpeg/ffmpeg-4.1"
 	exit 1
 fi
 

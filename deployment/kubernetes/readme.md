@@ -1,8 +1,8 @@
 
-export NAME=live.a.rtc.kaltura.com
-export KOPS_STATE_STORE=s3://live.a.rtc.kaltura.com
-kops create cluster --zones eu-west-1a,eu-west-1b,eu-west-1c --node-count=1 --node-size c5.2xlarge $NAME 
-kops edit cluster $NAME 
+export NAME=live.a.rtc.vidiun.com
+export VOPS_STATE_STORE=s3://live.a.rtc.vidiun.com
+vops create cluster --zones eu-west-1a,eu-west-1b,eu-west-1c --node-count=1 --node-size c5.2xlarge $NAME 
+vops edit cluster $NAME 
 
 
 
