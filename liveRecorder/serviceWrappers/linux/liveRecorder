@@ -3,10 +3,10 @@
 # the process monitor. For more configuration options associated with Forever,
 # see: https://github.com/nodejitsu/forever
 #
-# Live:              This shell script takes care of starting and stopping the Kaltura kLive Recorder service
+# Live:              This shell script takes care of starting and stopping the Vidiun vLive Recorder service
 #
 # chkconfig: 2345 85 15
-# description: Kaltura Live Recorder
+# description: Vidiun Live Recorder
 
 ### BEGIN INIT INFO
 # Provides:          liveRecorder
@@ -15,7 +15,7 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # X-Interactive:     true
-# Short-Description: Start/stop Kaltura Live Recorder
+# Short-Description: Start/stop Vidiun Live Recorder
 ### END INIT INFO
 
 ###
@@ -46,13 +46,13 @@ else
     echo "Error, no function found for checking if ${NAME} is running. either not running in CentOS/Ubuntu or wrong path"
 fi
 
-KLIVE_RECORDER_PREFIX=${SCRIPT_DIR}/../../
-echo "KLIVE_RECORDER_PREFIX=${KLIVE_RECORDER_PREFIX}"
+VLIVE_RECORDER_PREFIX=${SCRIPT_DIR}/../../
+echo "VLIVE_RECORDER_PREFIX=${VLIVE_RECORDER_PREFIX}"
 
 LOGDIR="${LOG_DIR}/${NAME}"
 PIDFILE="${PID_DIR}/${NAME}.pid"
 LOGFILE="${LOGDIR}/${NAME}-service.log"
-APPLICATION_PATH=${KLIVE_RECORDER_PREFIX}/main.py
+APPLICATION_PATH=${VLIVE_RECORDER_PREFIX}/main.py
 RETVAL=0
 
 if [ -e  /opt/rh/python27/enable ]; then

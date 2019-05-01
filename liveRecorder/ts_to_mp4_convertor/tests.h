@@ -3,7 +3,7 @@
 //  ts_to_mp4_convertor
 //
 //  Created by Guy.Jacubovski on 13/03/2018.
-//  Copyright © 2018 Kaltura. All rights reserved.
+//  Copyright © 2018 Vidiun. All rights reserved.
 //
 
 #ifndef tests_h

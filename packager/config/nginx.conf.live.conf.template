@@ -14,7 +14,7 @@ vod_upstream_location "";
 location ~ \/(?<live_type>live|recording|live-stg)\/[^\/]+\/p\/(?<partnerId>\d+)\/e\/(?<entryId>[^\/]+(?<entryHash>\w))\/(sd\/(?<segmentDuration>\d+)\/)?(type\/(?<user_type>\w+)\/)?t\/(?<token>[^\/]+)\/ {
 	#this is for backward compatability to fetch from wowza  
 	location ~ ^/m/(?<mediaServer>[^/]+)/live/legacy/p/\d+/e/[^/]+(/sd/[^/]+)?/t/[^/]+/(?<path>.*) {
-		proxy_pass http://${mediaServer}:1935/kLive/ngrp:${entryId}_1_all/$path$is_args$args;
+		proxy_pass http://${mediaServer}:1935/vLive/ngrp:${entryId}_1_all/$path$is_args$args;
 	}
 
 	location ~ /live|live-stg/ {

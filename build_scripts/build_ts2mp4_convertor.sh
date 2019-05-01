@@ -9,7 +9,7 @@
 #          BUGS: ---
 #         NOTES: ---
 #        AUTHOR:  (), Lilach Maliniak
-#  ORGANIZATION: Kaltura, inc.
+#  ORGANIZATION: Vidiun, inc.
 #       CREATED:  June 25, 2017
 #      REVISION:  ---
 #===============================================================================

@@ -1,6 +1,6 @@
-from KalturaClient import *
-from KalturaClient.Plugins.Core import KalturaSessionType, KalturaUploadToken, KalturaUploadedFileTokenResource, \
-    KalturaUploadTokenFilter, KalturaServerFileResource, KalturaUploadTokenStatus
+from VidiunClient import *
+from VidiunClient.Plugins.Core import VidiunSessionType, VidiunUploadToken, VidiunUploadedFileTokenResource, \
+    VidiunUploadTokenFilter, VidiunServerFileResource, VidiunUploadTokenStatus
 from Config.config import get_config
 from Logger.LoggerDecorator import logger_decorator
 from threading import Lock
@@ -15,20 +15,20 @@ class BackendClient:
     url = get_config('api_service_url')
     session_duration = get_config('session_duration')
     mode = get_config('mode')
-    ks_privileges = get_config('ks_privileges')
-    if ks_privileges is None:
-        ks_privileges = ''
+    vs_privileges = get_config('vs_privileges')
+    if vs_privileges is None:
+        vs_privileges = ''
 
     format = 2
     request_timeout = 120
-    expiration_time_ks = -1
+    expiration_time_vs = -1
     mutex = Lock()
-    config = KalturaConfiguration(url)
-    client = KalturaClient(config)
+    config = VidiunConfiguration(url)
+    client = VidiunClient(config)
     client.setPartnerId(partner_id)
     client.setClientTag("liveRecorder:1.0.0")
-    ks = None
-    type = KalturaSessionType.ADMIN
+    vs = None
+    type = VidiunSessionType.ADMIN
 
     def __init__(self, session_id):
         self.logger = logger_decorator(self.__class__.__name__, session_id)
@@ -36,27 +36,27 @@ class BackendClient:
                          self.partner_id, self.session_duration, self.url)
 
     def create_new_session(self):
-        ks= self.client.generateSessionV2(self.admin_secret, None, self.type, self.partner_id, int(self.session_duration), self.ks_privileges)
+        vs= self.client.generateSessionV2(self.admin_secret, None, self.type, self.partner_id, int(self.session_duration), self.vs_privileges)
         #result = self.client.session.start(self.admin_secret, None, self.type, self.partner_id, None, None)
-        BackendClient.ks = ks
-        BackendClient.expiration_time_ks = int(self.session_duration) + int(time.time()) - 3600  # confidence interval
-        self.client.setKs(self.ks)
-        self.logger.info("Creating a new session, KS= %s ", self.ks)
+        BackendClient.vs = vs
+        BackendClient.expiration_time_vs = int(self.session_duration) + int(time.time()) - 3600  # confidence interval
+        self.client.setVs(self.vs)
+        self.logger.info("Creating a new session, VS= %s ", self.vs)
 
-    def get_kaltura_session(self):
+    def get_vidiun_session(self):
         self.mutex.acquire()
         try:
-            if (self.ks is None) or self.expiration_time_ks < int(time.time()):
+            if (self.vs is None) or self.expiration_time_vs < int(time.time()):
                 self.create_new_session()
         finally:
             self.mutex.release()
 
     def impersonate_client(self, partner_id):
-        global ks
-        self.get_kaltura_session()  # generate KS in case that not existed or expired
-        clone_client = KalturaClient(self.config)
+        global vs
+        self.get_vidiun_session()  # generate VS in case that not existed or expired
+        clone_client = VidiunClient(self.config)
         clone_client.setPartnerId(partner_id)
-        clone_client.setKs(self.ks)
+        clone_client.setVs(self.vs)
         return clone_client
 
     def handle_request(self, partner_id, service, action, *parameters):
@@ -76,14 +76,14 @@ class BackendClient:
         return self.handle_request(partner_id, 'media', 'get', entry_id)
 
     def get_live_entry(self, entry_id):
-        self.get_kaltura_session()  # generate KS in case that not existed or expired
+        self.get_vidiun_session()  # generate VS in case that not existed or expired
         result = self.client.liveStream.get(entry_id)
         self.logger.info("Header :%s ", result[1])
         return result[0]
 
     def upload_token_add(self, partner_id, file_name, file_size):
 
-        upload_token_obj = KalturaUploadToken()
+        upload_token_obj = VidiunUploadToken()
         upload_token_obj.fileName = file_name
         upload_token_obj.fileSize = file_size
 
@@ -93,11 +93,11 @@ class BackendClient:
 
     def upload_token_list(self, partner_id, file_name):
 
-        upload_token_filter = KalturaUploadTokenFilter()
+        upload_token_filter = VidiunUploadTokenFilter()
         upload_token_filter.fileNameEqual = file_name
-        upload_token_filter.statusIn = ''.join([str(KalturaUploadTokenStatus.PENDING), ',',
-                                                str(KalturaUploadTokenStatus.PARTIAL_UPLOAD), ',' ,
-                                                str(KalturaUploadTokenStatus.FULL_UPLOAD)])
+        upload_token_filter.statusIn = ''.join([str(VidiunUploadTokenStatus.PENDING), ',',
+                                                str(VidiunUploadTokenStatus.PARTIAL_UPLOAD), ',' ,
+                                                str(VidiunUploadTokenStatus.FULL_UPLOAD)])
         return self.handle_request(partner_id, 'uploadToken', 'list', upload_token_filter)
 
     def upload_token_upload(self, upload_chunk_obj):
@@ -142,7 +142,7 @@ class BackendClient:
         recorded_id = upload_session.recorded_id
         entry_id = upload_session.entry_id
         partner_id = upload_session.partner_id
-        resource = KalturaUploadedFileTokenResource(token_id)
+        resource = VidiunUploadedFileTokenResource(token_id)
         self.logger.info("set_recorded_content_remote partner_id [%s] token [%s] duration [%s] recorded_id [%s] flavor_id [%s]", partner_id, token_id,
                          duration, recorded_id, flavor_id)
         self.set_recorded_content(entry_id, resource, duration, partner_id, recorded_id, flavor_id)
@@ -150,7 +150,7 @@ class BackendClient:
     def set_recorded_content_local(self, partner_id, entry_id, output_file, duration, recorded_id, flavor_id):  # todo check it
         self.logger.info("set_recorded_content_local partner_id [%s] output_file [%s] duration [%s] recorded_id [%s] flavor_id [%s]", partner_id,
                          output_file, duration, recorded_id, flavor_id)
-        resource = KalturaServerFileResource()
+        resource = VidiunServerFileResource()
         resource.localFilePath = output_file
         resource.keepOriginalFile = False
         self.set_recorded_content(entry_id, resource, duration, partner_id, recorded_id, flavor_id)

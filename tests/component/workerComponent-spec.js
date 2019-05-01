@@ -50,7 +50,7 @@ describe('Worker component spec', function() {
         config.set('readMockBackendResponseFromFile', false);
         config.set("mediaServer:hostname", "mediaServerHost");
         config.set("mediaServer:port", null);
-        config.set("applicationName", "kLive");
+        config.set("applicationName", "vLive");
 
         var promiseTmp = Q.denodeify(tmp.dir);
         promiseTmp({keep : true}).then(function(tmpResult){
@@ -110,17 +110,17 @@ describe('Worker component spec', function() {
     it('should download all chunks when there are chunklist read errors', function (done) {
         this.timeout(4000);
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/chunklist_b475136.m3u8',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/chunklist_b475136.m3u8',
             timeout: 10000
         }).onCall(3).returns(Q.reject("Whoops!"));
 
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/chunklist_b679936.m3u8',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/chunklist_b679936.m3u8',
             timeout: 10000
         }).onCall(4).returns(Q.reject("Whoops!"));
 
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/chunklist_b679936.m3u8',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/chunklist_b679936.m3u8',
             timeout: 10000
         }).onCall(5).returns(Q.reject("Whoops!"));
 
@@ -138,17 +138,17 @@ describe('Worker component spec', function() {
     it('should download all chunks when there are chunk read errors', function (done) {
         this.timeout(4000);
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
             timeout: 10000
         }).onCall(0).returns(Q.reject("Whoops!"));
 
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
             timeout: 10000
         }).onCall(1).returns(Q.reject("Whoops!"));
 
         wowzaMock.read.withArgs({
-            url: 'http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
+            url: 'http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:12345_all.smil/media-uia99r2td_b475136_7.ts',
             timeout: 10000
         }).onCall(2).returns(Q.reject("Whoops!"));
 

@@ -39,7 +39,7 @@ class UploadTask(TaskBase):
         chunks_to_upload = self.get_chunks_to_upload(file_size)
         with io.open(file_name, 'rb') as infile:
 
-            upload_session = KalturaUploadSession(file_name, file_size, chunks_to_upload, self.entry_id,
+            upload_session = VidiunUploadSession(file_name, file_size, chunks_to_upload, self.entry_id,
                                                   self.recorded_id, self.backend_client, self.logger, infile)
             if chunks_to_upload > 2:
                 chunk = upload_session.get_next_chunk()
@@ -82,7 +82,7 @@ class UploadTask(TaskBase):
         self.logger.debug("About to check replacement status for [%s]", self.recorded_id)
         recorded_obj = self.backend_client.get_recorded_entry(partner_id, self.recorded_id)
         self.logger.debug("Got replacement Status: %s", recorded_obj.replacementStatus.value)
-        if recorded_obj.replacementStatus.value != KalturaEntryReplacementStatus.NONE:
+        if recorded_obj.replacementStatus.value != VidiunEntryReplacementStatus.NONE:
             self.logger.info("entry %s has replacementStatus %s, calling cancel_replace", self.recorded_id,
                              recorded_obj.replacementStatus)
             self.backend_client.cancel_replace(partner_id, self.recorded_id)
@@ -115,7 +115,7 @@ class UploadTask(TaskBase):
                         self.append_recording_handler(file_full_path, flavor_id, is_first_flavor)
                     is_first_flavor = False
                     count_uploaded_mp4 += 1
-                except KalturaException as e:
+                except VidiunException as e:
                     code = e.code
                     if e.code == 'FLAVOR_PARAMS_ID_NOT_FOUND':
                         self.logger.warn('{}, failed to upload {}, flavor id {}'.format(e.message, mp4, flavor_id))
@@ -131,7 +131,7 @@ class UploadTask(TaskBase):
                     self.logger.warn('there were no mp4 files to upload. check {}'.format(self.recording_path))
         except KalturaException as e:
             self.logger.error('failed to upload VOD with error {}, exception details: {}'.format(e.code, e.message))
-            if e.code == 'KALTURA_RECORDING_DISABLED':
+            if e.code == 'VIDIUN_RECORDING_DISABLED':
                 self.logger.warn("%s, move it to done directory", e.message)
             elif e.code == 'ENTRY_ID_NOT_FOUND':
                 self.logger.warn("%s, move it to done directory", e.message)

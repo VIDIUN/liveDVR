@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
- entryDir=${entryDir:-/Users/igors/kLive_content/live/0_0tqdn8vw/}
+ entryDir=${entryDir:-/Users/igors/vLive_content/live/0_0tqdn8vw/}
 
  echo "entryDir=$entryDir"
 
@@ -20,7 +20,7 @@ function Sleep {
 }
 
  last=0
- #files=("/Users/igors/kLive_content/live/0_0tqdn8vw/playlist.json_1470056933749" "/Users/igors/kLive_content/live/0_0tqdn8vw/playlist.json_1470056942873" )
+ #files=("/Users/igors/vLive_content/live/0_0tqdn8vw/playlist.json_1470056933749" "/Users/igors/vLive_content/live/0_0tqdn8vw/playlist.json_1470056942873" )
  files=${files:-`ls $entryDir/playlist.json_* | sort`}
  entryId=`basename $entryDir`
 

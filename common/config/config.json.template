@@ -2,8 +2,8 @@
   "mockNetwork" : false,
   "mockBackend" : false,
   "readMockBackendResponseFromFile" : false,
-  "rootFolderPath" : "~/kLive_content/live",
-  "oldContentFolderPath" : "~/kLive_content/archive",
+  "rootFolderPath" : "~/vLive_content/live",
+  "oldContentFolderPath" : "~/vLive_content/archive",
   "requestTimeout" : 20000,
   "flavorSuccessPollingInterval" : 2000,
   "flavorFailPollingInterval" : 10000,
@@ -21,11 +21,11 @@
   "numOfManifestRetries" : 5,
   "logLevel" : "DEBUG",
   "logToConsole" : false,
-  "logFileName" : "~/dvr/kLiveController.log",
+  "logFileName" : "~/dvr/vLiveController.log",
   "logTimeZoneOffset" : 300,
   "monitorPort": 4390,
   "persistenceCheckIntervalSec": 20,
-  "persistenceFileName": "~/dvr/%s_kLivePersistence.json",
+  "persistenceFileName": "~/dvr/%s_vLivePersistence.json",
   "expirationTimeWindowSec": "30",
   "maxClipsPerFlavor": 125,
   "regressionAdapter": {
@@ -80,7 +80,7 @@
       "entryId": "0_simstream%d",
       "playWindow": 240,
       "useNginx":false,
-      "wowzaUrl": "http://kalsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/kLive/smil:1_oorxcge2_all.smil/playlist.m3u8"
+      "wowzaUrl": "http://vidsegsec-a.akamaihd.net/dc-0/m/pa-live-publish2/vLive/smil:1_oorxcge2_all.smil/playlist.m3u8"
   },
   "mediaServer" : {
       "hostname" : "@HOSTNAME@",
@@ -95,8 +95,8 @@
     "adminSecret" :"admin secret",
     "partnerId" : 12345,
     "serviceUrl" : "http://serviceURL",
-    "ksSessionRefreshIntervalMinutes" : 720,
-    "ksPrivileges": "all:*,disableentitlement"
+    "vsSessionRefreshIntervalMinutes" : 720,
+    "vsPrivileges": "all:*,disableentitlement"
   },
   "playlistConfig" : {
     "waitTimeBeforeRemoval" : 100000,
@@ -111,8 +111,8 @@
   },
   "recording" : {
        "enable" : false,
-       "recordingFolderPath" : "~/kLive_content/recording/recordings",
-       "completedRecordingFolderPath" : "~/kLive_content/recording/incoming",
+       "recordingFolderPath" : "~/vLive_content/recording/recordings",
+       "completedRecordingFolderPath" : "~/vLive_content/recording/incoming",
        "recordingTimeIntervalInSec" : 60,
        "recordingMaxDurationInHours" : 24,
        "recordingMinDurationInSeconds" : 60,
