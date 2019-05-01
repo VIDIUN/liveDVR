@@ -3146,7 +3146,7 @@ class VidiunLanguageCode(object):
     KM = "km"
     KN = "kn"
     KO = "ko"
-    VS = "ks"
+    VS = "vs"
     KU = "ku"
     KY = "ky"
     LA = "la"
